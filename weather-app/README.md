@@ -1,5 +1,22 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+
+Weather-App is a cummunity project, taking it as reference and trying to integrate with project specific stack.<br>
+App uses below libraries <br>
+1. React <br>
+2. Redux <br>
+3. Immutability <br>
+4. fetch Api <br> 
+5. Plotly which will be replaced with Highcharts in next version. <br>
+
+To Run the App <br>
+1. Clone the repository <br>
+2. ~ weather-app <br>
+3. npm install <br>
+4. npm start <br>
+
+
+
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
