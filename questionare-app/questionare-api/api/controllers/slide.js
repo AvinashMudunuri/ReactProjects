@@ -10,7 +10,11 @@ module.exports = {getAllSlides, saveSlide, getSlide};
  * returns array of slides
 */
 function getAllSlides(req, res, next) {
-    res.json({slides: db.find()});
+    db.find(function(slidesNode){
+        res.json({
+            slides: slidesNode
+        });
+    });
 }
 
 /**
@@ -21,12 +25,13 @@ function getAllSlides(req, res, next) {
  */
 function getSlide(req, res, next) {
     var id = req.swagger.params.id.value;
-    var slide = db.find(id);
-    if(slide) {
-        res.json(slide);
-    }else {
-        res.status(204).send();
-    }  
+    db.find(function(slide){
+        if(slide) {
+            res.json(slide);
+        }else {
+            res.status(204).send();
+        }
+    }, id);
 }
 
 /**
@@ -36,5 +41,10 @@ function getSlide(req, res, next) {
  * returns: success message
  */
 function saveSlide(req, res, next) {
-    res.json({success: db.save(req.body), description: "Slide added to the list!"});
+    db.save(function(slide) {
+        res.json({
+            success: slide,
+            description: "Slide Added Successfully"
+        });
+    }, req.body);
 }

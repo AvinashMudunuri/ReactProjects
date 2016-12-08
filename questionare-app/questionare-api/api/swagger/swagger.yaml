@@ -96,6 +96,8 @@ definitions:
         items:
           type: object
           properties:
+            _id:
+              type: string
             id:
               type: string
             title:
@@ -104,10 +106,13 @@ definitions:
               type: string
   GetSlideResponse:
     required:
+      - _id
       - id
       - title
       - description
     properties:
+      _id:
+        type: string
       id:
         type: string
       title:
