@@ -1,0 +1,142 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World App
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /api/slides:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: slide
+    get:
+      description: Returns list of slides
+      # used as the method name of the controller
+      operationId: getAllSlides
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/GetSlidesList"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Returns success message
+      parameters:
+        - name: title
+          description: slide description
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Slide"
+      # used as the method name of the controller
+      operationId: saveSlide
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/GeneralResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
+  /api/slide/{id}:
+    x-swagger-router-controller: slide
+    get:
+      description: get a slide
+      parameters:
+        - name: id
+          type: string
+          in: path
+          required: true
+      operationId: getSlide
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetSlideResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  GetSlidesList:
+    required:
+      - slides
+    properties:
+      slides:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+  GetSlideResponse:
+    required:
+      - id
+      - title
+      - description
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+        
+  Slide:
+    type: object
+    properties:
+      title:
+        type: string
+        description: slide title
+      description:
+        type: string
+        description: slide description
+    required:
+      - title
+      - description
+  GeneralResponse:
+    type: object
+    properties:
+      success:
+        type: number
+        description: returns 1 if successful
+      description:
+        type: string
+        description: comment
+    required:
+      - success
+      - description
+      
